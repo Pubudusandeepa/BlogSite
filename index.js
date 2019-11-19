@@ -30,15 +30,15 @@ app.use('/about', (req,res)=>{
 })
 
 app.use('/post', (req,res) =>{
-    res.sendFile(path.resolve(__dirname,'pages/post.html'));
+    res.render('post');
 })
 
 app.use('/contact',(req,res) =>{
-    res.sendFile(path.resolve(__dirname,'pages/contact.html'));
+    res.render('contact');
 })
 app.listen(3000, ()=>{
 
-    console.log('App listening on port 4000');
+    console.log('App listening on port 3000');
 })
 
 
