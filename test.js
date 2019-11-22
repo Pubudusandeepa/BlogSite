@@ -15,11 +15,11 @@ mongoose.connect('mongodb://localhost:27017/node-js-test-blog', {useNewUrlParser
 //   console.log(error,post);
 // })
 
-Post.findByIdAndUpdate("5dd6010a19835e11e8c99619",{
-title: 'My first blog post title is loren ipsum'
-},(error,post)=>{
-  console.log(error,post)
-})
+// Post.findByIdAndUpdate("5dd6010a19835e11e8c99619",{
+// title: 'My first blog post title is loren ipsum'
+// },(error,post)=>{
+//   console.log(error,post)
+// })
 
 // Post.create({
 //     title: 'Third My first blog post',

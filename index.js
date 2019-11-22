@@ -6,10 +6,13 @@ const mongoose = require('mongoose');
 
 const {config,engine} = require('express-edge');
 
+const bodyParser = require('body-parser')
+
+const Post = require('./database/models/Post')
 
 const app = new express();
 
-mongoose.connect('mongodb://localhost::27017/node-js-blog',{ useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/node-js-blog',{ useNewUrlParser: true });
 
 app.use(express.static('public'));
 
@@ -17,17 +20,31 @@ app.use(engine);
 
 app.set('views', `${__dirname}/views`);
 
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({extended: true}))
 
 
 
 
-app.get('/', (req,res) => {
 
-    res.render('index');
+app.get('/', async (req,res) => {
+
+ const posts = await Post.find({})
+     console.log(posts)
+    res.render('index',{
+        posts
+    });
 })
 
 app.get('/posts/new', (req,res) =>{
     res.render('create');
+})
+
+app.post('/posts/store', (req,res)=>{
+ Post.create(req.body, (error,post)=>{
+     res.redirect('/')
+ })
 })
 
 
@@ -36,11 +53,17 @@ app.get('/about', (req,res)=>{
     res.render('about');
 })
 
-app.get('/post', (req,res) =>{
-    res.render('post');
+app.get('/post/:id',async (req,res) =>{
+   
+    const post = await Post.findById(req.params.id)
+
+    res.render('post',{
+        post
+    });
 })
 
 app.get('/contact',(req,res) =>{
+   
     res.render('contact');
 })
 

@@ -21,7 +21,15 @@
     
       <div class ="col-md-8 offset-md-2">
 
-      <form>
+      <form action="/posts/store" method ="POST">
+       <div class ="control-group">
+
+        <div class ="form-group floating-label-form-group controls">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Username"  class="form-control">
+        </div>
+    
+        </div>
         <div class ="control-group">
 
         <div class ="form-group floating-label-form-group controls">
@@ -34,8 +42,8 @@
          <div class ="control-group">
 
         <div class ="form-group floating-label-form-group controls">
-        <label>Description</label>
-        <input type="text" name="Description" placeholder="Description" class="form-control">
+        <label>Subtitle</label>
+        <input type="text" name="subtitle" placeholder="Subtitle" class="form-control">
         </div>
     
         </div>
@@ -44,7 +52,7 @@
 
         <div class ="form-group floating-label-form-group controls">
         <label>Content</label>
-        <textarea name="Content" placeholder="Content..." cols="30" rows="10" class="form-control" ></textarea>
+        <textarea name="content" placeholder="Content..." cols="30" rows="10" class="form-control" ></textarea>
         </div>
     
         </div>
