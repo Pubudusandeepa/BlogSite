@@ -28,20 +28,22 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-const customMiddleware = (req,res,next) => {
+const validateCreatePostMiddleware = (req, res, next) =>{
     console.log('I Have Been Called')
+    if(!req.files.image)
+    {
+        return res.redirect('/posts/new')
+    }
 
     next()
 }
 
-app.use(customMiddleware)
-
-
+ app.use('/posts/store',validateCreatePostMiddleware)
 
 app.get('/', async (req,res) => {
 
  const posts = await Post.find({})
-     
+     console.log(posts)
     res.render('index',{
         posts
     });
