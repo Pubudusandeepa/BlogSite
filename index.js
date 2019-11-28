@@ -12,6 +12,12 @@ const fileUpload = require('express-fileupload')
 
 const Post = require('./database/models/Post')
 
+const createPostController = require('./controllers/CreatePost')
+
+const homePageController = require('./controllers/homePage')
+
+const storePostController = require('./controllers/storePost')
+
 const app = new express();
 
 mongoose.connect('mongodb://localhost:27017/node-js-blog',{ useNewUrlParser: true });
@@ -30,7 +36,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 const validateCreatePostMiddleware = (req, res, next) =>{
     console.log('I Have Been Called')
-    if(!req.files.image)
+    if(!req.files.image || !req.body.title || !req.body.subtitle || !req.body.content)
     {
         return res.redirect('/posts/new')
     }
@@ -38,34 +44,13 @@ const validateCreatePostMiddleware = (req, res, next) =>{
     next()
 }
 
- app.use('/posts/store',validateCreatePostMiddleware)
+ app.use("/posts/store",validateCreatePostMiddleware)
 
-app.get('/', async (req,res) => {
+app.get("/", homePageController )
 
- const posts = await Post.find({})
-     console.log(posts)
-    res.render('index',{
-        posts
-    });
-})
+app.get("/posts/new", createPostController);
 
-app.get('/posts/new', (req,res) =>{
-    res.render('create');
-})
-
-app.post('/posts/store', (req,res)=>{
-    const { image } = req.files
-    image.mv(path.resolve(__dirname,'public/posts',image.name),(error)=>{
-        Post.create({
-            ...req.body,
-            image: `/posts/${image.name}`
-
-        }, (error,post)=>{
-            res.redirect('/')
-        })
-    })
-
-})
+app.post("/posts/store", storePostController);
 
 
 
