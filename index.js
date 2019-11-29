@@ -20,6 +20,8 @@ const storePostController = require('./controllers/storePost')
 
 const getPostController = require('./controllers/getPost')
 
+const createUserController =require('./controllers/createUser')
+
 const app = new express();
 
 mongoose.connect('mongodb://localhost:27017/node-js-blog',{ useNewUrlParser: true });
@@ -36,24 +38,21 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-const validateCreatePostMiddleware = (req, res, next) =>{
-    
-    console.log('I Have Been Called')
-    if(!req.files || !req.body.title || !req.body.subtitle || !req.body.content)
-    {
-        return res.redirect('/posts/new')
-    }
 
-    next()
-}
 
- app.use("/posts/store",validateCreatePostMiddleware)
+const storePost  = require('./middleware/storePost')
+
+ app.use('/posts/store', storePost)
 
 app.get("/", homePageController)
+
+
 
 app.get("/posts/new", createPostController);
 
 app.post("/posts/store", storePostController);
+
+app.get("/auth/register", createUserController)
 
 
 
