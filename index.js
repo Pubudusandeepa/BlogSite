@@ -22,6 +22,8 @@ const getPostController = require('./controllers/getPost')
 
 const createUserController =require('./controllers/createUser')
 
+const storeUserController = require('./controllers/storeUser')
+
 const app = new express();
 
 mongoose.connect('mongodb://localhost:27017/node-js-blog',{ useNewUrlParser: true });
@@ -52,7 +54,10 @@ app.get("/posts/new", createPostController);
 
 app.post("/posts/store", storePostController);
 
-app.get("/auth/register", createUserController)
+app.get("/auth/register", createUserController);
+
+app.post("/users/register", storeUserController)
+
 
 
 
