@@ -10,6 +10,10 @@ const bodyParser = require('body-parser')
 
 const fileUpload = require('express-fileupload')
 
+const expressSession = require('express-session')
+
+const connectMongo = require('connect-mongo')
+
 const Post = require('./database/models/Post')
 
 const createPostController = require('./controllers/CreatePost')
@@ -24,7 +28,26 @@ const createUserController =require('./controllers/createUser')
 
 const storeUserController = require('./controllers/storeUser')
 
+const loginController = require('./controllers/login')
+
+const loginUsercontroller = require('./controllers/loginUser')
+
 const app = new express();
+
+mongoose.connect("mongodb://localhost/node-js-blog");
+
+const mongoStore = connectMongo(expressSession);
+
+app.use(expressSession({
+
+    secret: 'secret',
+
+    store: new mongoStore({
+
+        mongooseConnection: mongoose.connection
+    })
+
+}))
 
 mongoose.connect('mongodb://localhost:27017/node-js-blog',{ useNewUrlParser: true });
 
@@ -53,6 +76,10 @@ app.get("/", homePageController)
 app.get("/posts/new", createPostController);
 
 app.post("/posts/store", storePostController);
+
+app.get("/auth/login", loginController )
+
+app.post("/users/login", loginUsercontroller)
 
 app.get("/auth/register", createUserController);
 
