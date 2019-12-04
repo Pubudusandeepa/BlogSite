@@ -63,19 +63,19 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-
-
 const storePost  = require('./middleware/storePost')
+
+const auth = require("./middleware/auth");
 
  app.use('/posts/store', storePost)
 
+ app.use("posts/new", auth);
+
 app.get("/", homePageController)
 
+app.get("/posts/new", auth , createPostController);
 
-
-app.get("/posts/new", createPostController);
-
-app.post("/posts/store", storePostController);
+app.post("/posts/store", auth , storePost, storePostController);
 
 app.get("/auth/login", loginController )
 
