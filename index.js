@@ -69,13 +69,13 @@ const auth = require("./middleware/auth");
 
  app.use('/posts/store', storePost)
 
- app.use("posts/new", auth);
+ app.use('posts/new', auth);
 
 app.get("/", homePageController)
 
 app.get("/posts/new", auth , createPostController);
 
-app.post("/posts/store", auth , storePost, storePostController);
+app.post("/posts/store", auth , storePostController);
 
 app.get("/auth/login", loginController )
 
